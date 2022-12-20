@@ -1,6 +1,7 @@
 import telebot
 import threading
 import pause
+import config
 from datetime import datetime
 from datetime import timedelta
 import datetime
@@ -247,10 +248,12 @@ class FinanceBot(Bot):
                         if RSI(self, name) == 0:
                             bot.send_message(message.chat.id, "продажа, такер:')
                             bot.send_message(message.chat.id, name)
-
-
+                                             
     def background_funs(self):
-        stocks = ['NLFX', 'MSFT', 'AAPL', 'TSLA', 'AMZN', 'GOOG', 'F', 'INTC', 'UBER'] # F = ford motor company, INTC = intel corporation
+        file1 = open("stocks.txt", "r") 
+        line = file1.readline()
+        stocks = line.split(' ')                                     
+        #stocks = ['NLFX', 'MSFT', 'AAPL', 'TSLA', 'AMZN', 'GOOG', 'F', 'INTC', 'UBER'] # F = ford motor company, INTC = intel corporation
         for i in stocks:
             th = threading.Thread(target=self.price_check(self, i, 12, 60))
             th.start()
@@ -268,6 +271,127 @@ class FinanceBot(Bot):
 
     def start(self):
         Bot.start(self)
+    
+    dp = Dispatcher(bot)
+                                             
+    @dp.message_handler(commands=['start'])
+    async def bot_start(message: types.message):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        bt1 = types.KeyboardButton('Выбрать акции')
+        bt2 = types.KeyboardButton('Информация о боте')                                          
+        markup.add(bt1, bt2)
+        await bot.send_message(message.chat.id, 'Здравствуйте!'.format(message.from_user), reply_markup=markup)
+                                             
+    @dp.message_handler(content_types=['text'])async def process_menu(message: types.message):
+    if message.chat.type == 'private':
+
+        if message.text == 'Информация о боте':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'Этот бот создан для отслеживания ситуации на фондовом рынке. Он может присылать вам советы о покупке или продаже интересующих вас акций', reply_markup=markup)                                 
+
+        if message.text == 'Акции Microsoft':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('MSFT'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Apple':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('APPl'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Tesla':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('TSLA'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Netflix':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('NFLX'))
+            file1.write(' ')
+            file1.close()                                      
+
+       if message.text == 'Акции Google':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('GOOG'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Ford motor company':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('F'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Intel':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('INTC'))
+            file1.write(' ')
+            file1.close()
+                                             
+        if message.text == 'Акции Uber':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            backButton = types.KeyboardButton('Назад')
+            markup.add(backButton)
+            await bot.send_message(message.chat.id, 'учтено', reply_markup=markup)
+            file1 = open("stocks.txt", "a")
+            file1.write(str('UBER'))
+            file1.write(' ')
+            file1.close()                                              
+                                             
+        if message.text == 'Назад':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            bt1 = types.KeyboardButton('Выбрать акции')
+            bt2 = types.KeyboardButton('Информация о боте')                                           
+            markup.add(bt1, bt2)
+            await bot.send_message(message.chat.id, 'Ещё?'.format(message.from_user), reply_markup=markup)
+                                             
+        if message.text == 'Выбрать акции':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            bt3 = types.KeyboardButton('Акции Netflix')                                   
+            bt4 = types.KeyboardButton('Акции Microsoft')                                      
+            bt5 = types.KeyboardButton('Акции Apple')                                      
+            bt6 = types.KeyboardButton('Акции Tesla') 
+            bt7 = types.KeyboardButton('Акции Amazon')                                      
+            bt8 = types.KeyboardButton('Акции Google')                                      
+            bt9 = types.KeyboardButton('Акции Ford motor company')                                      
+            bt10 = types.KeyboardButton('Акции Intel')
+            bt10 = types.KeyboardButton('Акции Uber') 
+            markup.add(bt3, bt4, bt5, bt6, bt7, bt8, bt9, bt10)
+            await bot.send_message(message.chat.id, 'Ещё?'.format(message.from_user), reply_markup=markup)                                     
+            
 
 TelegramToken = "5761508185:AAGIMlqEXbnwCYcnwF4HuxUSfZega7pSUqc"
 Fb = FinanceBot(TelegramToken)
