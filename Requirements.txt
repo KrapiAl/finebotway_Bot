@@ -1,0 +1,6 @@
+telebot
+threading
+pause
+timedelta
+datetime
+yfinance
