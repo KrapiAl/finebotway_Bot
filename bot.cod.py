@@ -6,6 +6,8 @@ from datetime import datetime
 from datetime import timedelta
 import datetime
 import yfinance as yf
+from aiogram import Dispatcher, types, executor, Bot
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 class Bot:
