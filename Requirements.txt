@@ -4,3 +4,4 @@ pause
 timedelta
 datetime
 yfinance
+aiogram
